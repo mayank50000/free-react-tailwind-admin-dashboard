@@ -16,6 +16,10 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
+import Country from './pages/Country/Country';
+import Category from './pages/Category/Category';
+import Region from './pages/Region/Region';
+import News from './pages/News';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,6 +44,42 @@ function App() {
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <ECommerce />
+            </>
+          }
+        />
+        <Route
+          path="/admin/countries"
+          element={
+            <>
+              <PageTitle title="Country " />
+              <Country country={{ name: "India", isActive: true }} />
+            </>
+          }
+        />
+        <Route
+          path="/admin/regions"
+          element={
+            <>
+              <PageTitle title="Region " />
+              <Region region={{ name: "Haryana", isActive: true }} />
+            </>
+          }
+        />
+        <Route
+          path="/admin/categories"
+          element={
+            <>
+              <PageTitle title="Category " />
+              <Category category={{ name: "Sports" }} />
+            </>
+          }
+        />
+        <Route
+          path="/admin/news"
+          element={
+            <>
+              <PageTitle title="News " />
+              <News news={{ id: 1, title: "Breaking News", content: "This is breaking news...", author_name: "John Doe", is_global: true}} />
             </>
           }
         />
