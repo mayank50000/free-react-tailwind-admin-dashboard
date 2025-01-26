@@ -1,8 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { ApiResponse } from './types';
 
-const BASE_URL = process.env.REACT_APP_API_BASE_URL;
-const TIMEOUT = parseInt(process.env.REACT_APP_API_TIMEOUT || '10000');
+const BASE_URL = '';//process.env.REACT_APP_API_BASE_URL;
+const TIMEOUT = 10000;//parseInt(process.env.REACT_APP_API_TIMEOUT || '10000');
 
 const createAxiosInstance = (baseURL?: string): AxiosInstance => {
   const instance = axios.create({

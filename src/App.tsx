@@ -16,10 +16,12 @@ import Tables from './pages/Tables';
 import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
-import Country from './pages/Country/Country';
+import Country from './pages/Country/CountryForm';
 import Category from './pages/Category/Category';
-import Region from './pages/Region/Region';
+import Region from './pages/Region/RegionFormPage';
 import News from './pages/News';
+import CountryFormPage from './pages/Country/CountryFormPage';
+import RegionFormPage from './pages/Region/RegionFormPage';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -52,7 +54,8 @@ function App() {
           element={
             <>
               <PageTitle title="Country " />
-              <Country country={{ name: "India", isActive: true }} />
+              <CountryFormPage />
+              {/* <Country  country={{ name: "India", isActive: true }} /> */}
             </>
           }
         />
@@ -61,7 +64,8 @@ function App() {
           element={
             <>
               <PageTitle title="Region " />
-              <Region region={{ name: "Haryana", isActive: true }} />
+              <RegionFormPage />
+              {/* <Region region={{ name: "Haryana", isActive: true }} /> */}
             </>
           }
         />
