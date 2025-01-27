@@ -3,14 +3,16 @@ import { apiClient } from './apiClient';
 import { ApiResponse } from './types';
 import { Country } from './countryService';
 import { Region } from './regionService';
+import { Category } from './categoryService';
+import { SubCategory } from './subCategoryService';
 
 export interface News {
   id: string;
   title: string;
   content: string;
-  country?: Country;
-  region?: Region;
   isGlobal: boolean;
+  category?: Category;
+  subCategory?: SubCategory;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -18,9 +20,9 @@ export interface News {
 export interface NewsRequest {
   title: string;
   content: string;
-  countryId?: string;
-  regionId?: string;
   isGlobal: boolean;
+  categoryId?: string;
+  subCategoryId?: string;
 }
 
 export const NewsService = {

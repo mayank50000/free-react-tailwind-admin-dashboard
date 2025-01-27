@@ -17,11 +17,14 @@ import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import Country from './pages/Country/CountryForm';
-import Category from './pages/Category/Category';
+import Category from './pages/Category/CategoryForm';
 import Region from './pages/Region/RegionFormPage';
-import News from './pages/News';
+import News from './pages/News/NewsForm';
 import CountryFormPage from './pages/Country/CountryFormPage';
 import RegionFormPage from './pages/Region/RegionFormPage';
+import CategoryFormPage from './pages/Category/CategoryFormPage';
+import NewsFormPage from './pages/News/NewsFormPage';
+import SubCategoryFormPage from './pages/SubCategory/SubCategoryFormPage';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -74,7 +77,18 @@ function App() {
           element={
             <>
               <PageTitle title="Category " />
-              <Category category={{ name: "Sports" }} />
+              <CategoryFormPage />
+              {/* <Category category={{ name: "Sports" }} /> */}
+            </>
+          }
+        />
+        <Route
+          path="/admin/subcategories"
+          element={
+            <>
+              <PageTitle title="Sub Category " />
+              <SubCategoryFormPage />
+              {/* <Category category={{ name: "Sports" }} /> */}
             </>
           }
         />
@@ -83,7 +97,8 @@ function App() {
           element={
             <>
               <PageTitle title="News " />
-              <News news={{ id: 1, title: "Breaking News", content: "This is breaking news...", author_name: "John Doe", is_global: true}} />
+              <NewsFormPage />
+              {/* <News news={{ id: 1, title: "Breaking News", content: "This is breaking news...", author_name: "John Doe", is_global: true}} /> */}
             </>
           }
         />
