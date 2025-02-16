@@ -1,21 +1,22 @@
 import { useState } from "react";
 import SwitcherThree from "../../components/Switchers/SwitcherThree";
+import { useApi } from '../../hooks/useApi';
+import { CountryRequest } from "../../api/countryService";
 
 // src/components/Country/CountryForm.tsx
 interface CountryFormProps {
-  onSubmit: (data: { countryName: string; isActive: boolean }) => void;
+  onSubmit: (data: CountryRequest) => void;
+  loading?: boolean;
+  error?: string | null;
 }
 
-const CountryForm = ({ onSubmit }: CountryFormProps) => {
+const CountryForm = ({ onSubmit, loading, error }: CountryFormProps) => {
+  const [name, setName] = useState('');
   const [isActive, setIsActive] = useState(true);
-  const [countryName, setCountryName] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({
-      countryName,
-      isActive
-    });
+    onSubmit({ countryName: name, isActive });
   };
 
   return (
@@ -34,8 +35,8 @@ const CountryForm = ({ onSubmit }: CountryFormProps) => {
             <input
               type="text"
               placeholder="Enter country name"
-              value={countryName}
-              onChange={(e) => setCountryName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
               required
             />
@@ -51,8 +52,9 @@ const CountryForm = ({ onSubmit }: CountryFormProps) => {
             />
           </div>
 
+          {error && <div className="mb-4 text-danger">{error}</div>}
           <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-            Save Country
+            {loading ? 'Saving...' : 'Save Country'}
           </button>
         </div>
       </form>

@@ -1,25 +1,21 @@
 // src/components/Category/CategoryForm.tsx
 import { useState } from 'react';
 import SwitcherThree from '../../components/Switchers/SwitcherThree';
+import { CategoryRequest } from '../../api/categoryService';
 
 interface CategoryFormProps {
-  onSubmit: (data: { categoryName: string; isActive: boolean }) => void;
-  initialData?: {
-    categoryName: string;
-    isActive: boolean;
-  };
+  onSubmit: (data: CategoryRequest) => void;
+  loading?: boolean;
+  error?: string | null;
 }
 
-const CategoryForm = ({ onSubmit, initialData }: CategoryFormProps) => {
-  const [isActive, setIsActive] = useState(initialData?.isActive || true);
-  const [categoryName, setCategoryName] = useState(initialData?.categoryName || '');
+const CategoryForm = ({ onSubmit, loading, error }: CategoryFormProps) => {
+  const [categoryName, setCategoryName] = useState('');
+  const [isActive, setIsActive] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({
-      categoryName,
-      isActive,
-    });
+    onSubmit({ categoryName, isActive });
   };
 
   return (
@@ -55,8 +51,9 @@ const CategoryForm = ({ onSubmit, initialData }: CategoryFormProps) => {
             />
           </div>
 
+          {error && <div className="mb-4 text-danger">{error}</div>}
           <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-            Save Category
+          {loading ? 'Saving...' : 'Save Category'}
           </button>
         </div>
       </form>

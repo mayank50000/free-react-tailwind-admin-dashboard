@@ -25,6 +25,7 @@ import RegionFormPage from './pages/Region/RegionFormPage';
 import CategoryFormPage from './pages/Category/CategoryFormPage';
 import NewsFormPage from './pages/News/NewsFormPage';
 import SubCategoryFormPage from './pages/SubCategory/SubCategoryFormPage';
+import PublicNewsFormPage from './pages/PublicNews/PublicNewsPage';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -49,6 +50,15 @@ function App() {
             <>
               <PageTitle title="eCommerce Dashboard | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <ECommerce />
+            </>
+          }
+        />
+        <Route
+          path="/news"
+          element={
+            <>
+              <PageTitle title="Country " />
+              <PublicNewsFormPage />
             </>
           }
         />

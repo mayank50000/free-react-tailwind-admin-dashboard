@@ -1,46 +1,29 @@
 // src/components/Region/RegionForm.tsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Country, CountryService } from '../../api/countryService';
 import SwitcherThree from '../../components/Switchers/SwitcherThree';
+import { useApi } from '../../hooks/useApi';
+import { RegionRequest } from '../../api/regionService';
 
 interface RegionFormProps {
-  onSubmit: (data: { 
-    regionName: string;
-    isActive: boolean;
-    countryId: string;
-  }) => void;
-  initialData?: {
-    regionName: string;
-    isActive: boolean;
-    countryId: string;
-  };
+  onSubmit: (data: RegionRequest) => void;
+  loading?: boolean;
+  error?: string | null;
 }
 
-const RegionForm = ({ onSubmit, initialData }: RegionFormProps) => {
-  const [isActive, setIsActive] = useState<boolean>(true);//useState(initialData?.isActive || true);
-  const [regionName, setRegionName] = useState(initialData?.regionName || '');
-  const [countryId, setCountryId] = useState(initialData?.countryId || '');
-  const [countries, setCountries] = useState<Country[]>([]);
+const RegionForm = ({ onSubmit, loading, error }: RegionFormProps) => {
+  const [regionName, setRegionName] = useState('');
+  const [countryId, setCountryId] = useState('');
+  const [isActive, setIsActive] = useState(true);
+  const { data: countries, execute: fetchCountries } = useApi<Country[]>();
 
-//   useEffect(() => {
-//     const fetchCountries = async () => {
-//       try {
-//         const response = await CountryService.getAllCountries();
-//         setCountries(response.data.data);
-//       } catch (error) {
-//         console.error('Error fetching countries:', error);
-//       }
-//     };
-//     fetchCountries();
-//   }, []);
+  useEffect(() => {
+    fetchCountries(CountryService.getAllCountries);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({
-      regionName,
-      isActive,
-      countryId
-    });
+    onSubmit({ regionName, countryId, isActive });
   };
 
   return (
@@ -77,7 +60,7 @@ const RegionForm = ({ onSubmit, initialData }: RegionFormProps) => {
               required
             >
               <option value="">Select Country</option>
-              {countries.map((country) => (
+              {countries?.map((country) => (
                 <option key={country.id} value={country.id}>
                   {country.countryName}
                 </option>
@@ -95,8 +78,9 @@ const RegionForm = ({ onSubmit, initialData }: RegionFormProps) => {
             />
           </div>
 
+          {error && <div className="mb-4 text-danger">{error}</div>}
           <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-            Save Region
+          {loading ? 'Saving...' : 'Save Region'}
           </button>
         </div>
       </form>

@@ -2,45 +2,28 @@
 import { useState, useEffect } from 'react';
 import { Category, CategoryService } from '../../api/categoryService';
 import SwitcherThree from '../../components/Switchers/SwitcherThree';
+import { useApi } from '../../hooks/useApi';
+import { SubCategoryRequest } from '../../api/subCategoryService';
 
 interface SubCategoryFormProps {
-  onSubmit: (data: { 
-    subCategoryName: string;
-    isActive: boolean;
-    categoryId: string;
-  }) => void;
-  initialData?: {
-    subCategoryName: string;
-    isActive: boolean;
-    categoryId: string;
-  };
+  onSubmit: (data: SubCategoryRequest) => void;
+  loading?: boolean;
+  error?: string | null;
 }
 
-const SubCategoryForm = ({ onSubmit, initialData }: SubCategoryFormProps) => {
-  const [isActive, setIsActive] = useState(initialData?.isActive || true);
-  const [subCategoryName, setSubCategoryName] = useState(initialData?.subCategoryName || '');
-  const [categoryId, setCategoryId] = useState(initialData?.categoryId || '');
-  const [categories, setCategories] = useState<Category[]>([]);
+const SubCategoryForm = ({ onSubmit, loading, error }: SubCategoryFormProps) => {
+  const [subCategoryName, setSubCategoryName] = useState('');
+  const [categoryId, setCategoryId] = useState('');
+  const [isActive, setIsActive] = useState(true);
+  const { data: categories, execute: fetchCategories } = useApi<Category[]>();
 
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await CategoryService.getAllCategories();
-        setCategories(response.data.data);
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-      }
-    };
-    fetchCategories();
+    fetchCategories(CategoryService.getAllCategories);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({
-      subCategoryName,
-      isActive,
-      categoryId,
-    });
+    onSubmit({ subCategoryName, categoryId, isActive });
   };
 
   return (
@@ -77,7 +60,7 @@ const SubCategoryForm = ({ onSubmit, initialData }: SubCategoryFormProps) => {
               required
             >
               <option value="">Select Category</option>
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.categoryName}
                 </option>
@@ -95,8 +78,9 @@ const SubCategoryForm = ({ onSubmit, initialData }: SubCategoryFormProps) => {
             />
           </div>
 
+          {error && <div className="mb-4 text-danger">{error}</div>}
           <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-            Save SubCategory
+          {loading ? 'Saving...' : 'Save SubCategory'}
           </button>
         </div>
       </form>
