@@ -3,7 +3,7 @@ import { useState, useCallback } from 'react';
 
 type ApiFunction<T> = (...args: any[]) => Promise<T>;
 
-export function useApi<T>() {
+export function useApi<T>(getPublicNews: any) {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);

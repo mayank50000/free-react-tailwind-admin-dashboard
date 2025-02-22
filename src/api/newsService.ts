@@ -5,6 +5,7 @@ import { Country } from './countryService';
 import { Region } from './regionService';
 import { Category } from './categoryService';
 import { SubCategory } from './subCategoryService';
+import { sampleNews } from '../SmpleData/sampleNews';
 
 export interface News {
   id: string;
@@ -78,5 +79,19 @@ export const NewsService = {
       `/news/region/${regionId}`
     );
     return response.data;
+  },
+
+  getPublicNews: async (page: number, limit: number = 20): Promise<ApiResponse<News[]>> => {
+    const response = await apiClient.get<ApiResponse<News[]>>(
+      '/news/public',
+      { params: { page, limit } }
+    );
+    return response.data;
+  },
+
+  getSamplePublicNews: async (): Promise<News[]> => {
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return sampleNews;
   },
 };
