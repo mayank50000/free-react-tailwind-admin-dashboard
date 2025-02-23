@@ -16,6 +16,8 @@ export interface News {
   subCategory?: SubCategory;
   createdAt: Date;
   updatedAt: Date;
+  imageUrl: string;
+  author: { name: string };
 }
 
 export interface NewsRequest {
@@ -91,7 +93,9 @@ export const NewsService = {
 
   getSamplePublicNews: async (): Promise<News[]> => {
     // Simulate API delay
+    debugger;
     await new Promise((resolve) => setTimeout(resolve, 1000));
+    console.log('SampleNews:', sampleNews);
     return sampleNews;
   },
 };

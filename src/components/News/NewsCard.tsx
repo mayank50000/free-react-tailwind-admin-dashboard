@@ -4,8 +4,15 @@ import { FC } from 'react';
 interface NewsCardProps {
   title: string;
   content: string;
-  category: string;
-  date: string;
+  isGlobal: boolean;
+  category?: {
+    categoryName: string;
+  };
+  subCategory?: {
+    subCategoryName: string;
+  };
+  createdAt: Date;
+  updatedAt: Date;
   imageUrl: string;
   author: string;
   onReadMore?: () => void;
@@ -14,12 +21,16 @@ interface NewsCardProps {
 const NewsCard: FC<NewsCardProps> = ({
   title,
   content,
+  isGlobal,
   category,
-  date,
+  subCategory,
+  createdAt,
+  updatedAt,
   imageUrl,
   author,
-  onReadMore
+  onReadMore,
 }) => {
+  
   return (
     <div className="flex flex-col md:flex-row rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark hover:shadow-lg transition-shadow duration-200">
       {/* Image Section - Left Side */}
@@ -35,10 +46,20 @@ const NewsCard: FC<NewsCardProps> = ({
       {/* Content Section - Right Side */}
       <div className="md:w-2/3 flex flex-col justify-between p-6">
         <div>
-          {/* Category Badge */}
-          <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm mb-4">
-            {category}
-          </span>
+          {/* Category/Global Badges */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {isGlobal && (
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-purple-500/10 text-purple-500 text-sm">
+                Global News
+              </span>
+            )}
+            {category && (
+              <span className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-sm">
+                {category.categoryName}
+                {subCategory && ` / ${subCategory.subCategoryName}`}
+              </span>
+            )}
+          </div>
 
           {/* Title */}
           <h3 className="text-xl font-bold text-black dark:text-white mb-3 line-clamp-2">
@@ -59,11 +80,10 @@ const NewsCard: FC<NewsCardProps> = ({
                 {author}
               </span>
               <span className="text-sm text-gray-500 dark:text-gray-400">
-                {new Date(date).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric'
-                })}
+                Published: {new Date(createdAt).toLocaleDateString()}
+              </span>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                Updated: {new Date(updatedAt).toLocaleDateString()}
               </span>
             </div>
             <button
@@ -91,5 +111,6 @@ const NewsCard: FC<NewsCardProps> = ({
     </div>
   );
 };
+
 
 export default NewsCard;
